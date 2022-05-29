@@ -36,11 +36,9 @@ fun transforma(lista:List<String>):List<String>{
       	  	}else{
               return listOf(lista.get(0).substring(0,maxLinha)) + transforma( listOf(lista.get(0).substring(maxLinha,lista.get(0).length)))
             }
-        return lista
     }
     
 }
-
 
 fun main() {
 
@@ -94,11 +92,33 @@ fun main() {
 
                 call.respondText("""
 
-                <p style="font-family:monospace">
-
-                ${ mensagens.map{x -> transforma(x.split(" ")).joinToString(separator="<br>")}.joinToString(separator="<br>") }
                 <html>
 
+                 <input type="text" size="15" maxlength="15" placeholder="coisa" id="peça">
+                 <button onclick="vai()">teste</button>
+
+
+                <script>
+
+                function vai(){
+                    console.log(document.getElementById("peça").value)
+                }
+
+                setInterval(function() { 
+
+                     fetch('/teste')
+                    .then(response => response.text())
+                    .then(text => document.getElementById("conversas").innerHTML = text)
+                }, 100);
+                    
+
+                </script>
+
+                <p style="font-family:monospace" id="conversas">
+                
+                ${ mensagens.map{x -> transforma(x.split(" ")).joinToString(separator="<br>")}.joinToString(separator="<br>") }
+
+                </p>
                 <head>
                     <title>Sala de bate-papo</title> 
                 </head>
@@ -108,9 +128,12 @@ fun main() {
                 <input type="text" size="50" maxlength="100" placeholder="Insira seu texto" name="texto">
                 <input type="submit" value="Enviar"> 
                 </form>
-                </p>
+                
                 </html>              
                 """,ContentType.Text.Html)
+            }
+            get("/teste"){
+                call.respondText( File("conversas.txt").readText().split("\n").map{x -> transforma(x.split(" ")).joinToString(separator="<br>")}.joinToString(separator="<br>")  )
             }
             static("/estatico/"){
                 files("static/")
