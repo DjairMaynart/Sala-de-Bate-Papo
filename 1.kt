@@ -77,20 +77,20 @@ fun main() {
                 }
                 
                 if( parameters["texto"] != null && parameters["texto"] != ""){
-                     File("dados.txt").writeText( File("dados.txt").readText()+ ("("+hora.toString().substring(0,8)+
+                     File("conversas.txt").writeText( File("conversas.txt").readText()+ ("("+hora.toString().substring(0,8)+
                      ") <b>"+nome +":</b> "+ parameters["texto"]+"\n") )
                 }
 
-                val conversaSize = File("dados.txt").readText().split("\n").size
+                val conversaSize = File("conversas.txt").readText().split("\n").size
 
                 val mensagens =                
                 if(conversaSize>=35){
-                    File("dados.txt").readText().split("\n").drop(conversaSize-35)
+                    File("conversas.txt").readText().split("\n").drop(conversaSize-35)
                 }else{
-                    File("dados.txt").readText().split("\n")
+                    File("conversas.txt").readText().split("\n")
                 }
-                
-                File("dados.txt").writeText(mensagens.joinToString(separator="\n"))
+
+                File("conversas.txt").writeText(mensagens.joinToString(separator="\n"))
 
                 call.respondText("""
 
