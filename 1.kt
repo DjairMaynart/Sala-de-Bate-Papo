@@ -94,21 +94,14 @@ fun main() {
 
                 <html>
 
-                 <input type="text" size="15" maxlength="15" placeholder="coisa" id="peça">
-                 <button onclick="vai()">teste</button>
-
-
                 <script>
-
-                function vai(){
-                    console.log(document.getElementById("peça").value)
-                }
 
                 setInterval(function() { 
 
-                     fetch('/teste')
+                     fetch('/conversas')
                     .then(response => response.text())
                     .then(text => document.getElementById("conversas").innerHTML = text)
+
                 }, 100);
                     
 
@@ -132,7 +125,7 @@ fun main() {
                 </html>              
                 """,ContentType.Text.Html)
             }
-            get("/teste"){
+            get("/conversas"){
                 call.respondText( File("conversas.txt").readText().split("\n").map{x -> transforma(x.split(" ")).joinToString(separator="<br>")}.joinToString(separator="<br>")  )
             }
             static("/estatico/"){
