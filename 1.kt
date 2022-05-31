@@ -76,7 +76,7 @@ fun main() {
                 
                 if( parameters["texto"] != null && parameters["texto"] != ""){
                      File("conversas.txt").writeText( File("conversas.txt").readText()+ ("("+hora.toString().substring(0,8)+
-                     ") <b>"+nome +":</b> "+ parameters["texto"]+"\n") )
+                     ") <b>"+nome!!.replace("<","&lt").replace(">","&gt") +":</b> "+ parameters["texto"]!!.replace("<","&lt").replace(">","&gt") +"\n") )
                 }
 
                 val conversaSize = File("conversas.txt").readText().split("\n").size
@@ -87,23 +87,22 @@ fun main() {
                 }else{
                     File("conversas.txt").readText().split("\n")
                 }
-
+    
                 File("conversas.txt").writeText(mensagens.joinToString(separator="\n"))
 
                 call.respondText("""
 
                 <html>
-
-                <script>
+                
+                 <script>
 
                 setInterval(function() { 
 
                      fetch('/conversas')
                     .then(response => response.text())
                     .then(text => document.getElementById("conversas").innerHTML = text)
-
-                }, 100);
-                    
+                
+                }, 100);             
 
                 </script>
 
